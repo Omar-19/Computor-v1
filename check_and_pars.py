@@ -1,4 +1,3 @@
-# TODO дописать проверку на говно в строке
 import re
 import sys
 
@@ -136,9 +135,6 @@ def get_number_factors(eq, fac):
                 n = float(ch)
 
                 n = 1 if is_n == 0 else n
-            # print(pow_, ch, n)
-
-            fac.max_degree = pow_ if (pow_ > fac.max_degree) else fac.max_degree
 
             if pow_ in fac.pow_num_dict.keys():
                 fac.pow_num_dict[pow_] += i * z * n
@@ -174,3 +170,14 @@ def get_number_factors(eq, fac):
 
     # TODO исправить fac.max_degree = pow_ if (pow_ > fac.max_degree) else fac.max_degree
     # TODO график
+
+
+def get_max_degree(fac):
+    if fac.a != 0:
+        fac.max_degree = 2
+    elif fac.b != 0:
+        fac.max_degree = 1
+    
+    for key in fac.pow_num_dict.keys():
+        if key > fac.max_degree and fac.pow_num_dict[key] != 0:
+            fac.max_degree = key

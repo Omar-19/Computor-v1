@@ -1,7 +1,7 @@
 import re
 import sys
 
-from check_and_pars import check, parse_argv, get_number_factors, check_correct_part
+from check_and_pars import check, parse_argv, get_number_factors, check_correct_part, get_max_degree
 from create_solution import solve
 # from my_math import ftPow
 from error import exit_with_error, printUsage
@@ -63,6 +63,7 @@ def main(argv):
     equation = equation.split()
     check_correct_part(equation)
     get_number_factors(equation, fac)
+    get_max_degree(fac)
     get_abc(fac)
     print_reduced_form(fac)
     sol = solve(fac)
