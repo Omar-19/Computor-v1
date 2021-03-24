@@ -21,7 +21,6 @@ def check(eq):
 
 
 def check_correct_part(eq):
-
     # print(eq)
 
     if len(eq) < 3:
@@ -173,3 +172,5 @@ def get_number_factors(eq, fac):
 
             n = 1 if is_n == 0 else n
 
+    # TODO исправить fac.max_degree = pow_ if (pow_ > fac.max_degree) else fac.max_degree
+    # TODO график

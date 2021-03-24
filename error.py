@@ -13,7 +13,9 @@ class TextColors:
 
 
 def printUsage():
-    print('USAGE:\n >>> python3 main.py [flag] "polynomial equation"\n')
+    # TODO добавить описание корректной строки с уравнением
+    print(TextColors.OK_GREEN + 'USAGE:\n >>> python3 main.py [flag] "polynomial equation"\n' + TextColors.EN_DC)
+    # print('USAGE:\n >>> python3 main.py [flag] "polynomial equation"\n')
     print("FLAGS:")
     print(' -h\tdisplay help and exit')
     print(' -p\tprints main steps of the resolver')
