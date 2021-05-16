@@ -1,18 +1,43 @@
 import math
-
+import matplotlib.pyplot as plt
+import numpy as np
 from error import exit_with_error
 
 
 class Sol:
     n = 0
     is_complex = 0
-    # d = {'Re': 0, 'Im1': 0, 'Im2': 0}
     x = []
     comment = ''
 
 
+def show_plot(roots, k1, k2, k3):
+    if len(roots) > 1:
+        x1, x2 = roots
+        points = x1, x2
+        y0 = 0, 0
+        plt.scatter(points, y0, color='red')
+    else:
+        x = roots
+        points = x
+        y0 = 0
+        plt.scatter(points, y0, color='red')
+
+    freq = 100  # частота дискретизации
+    a, b = -10, 10  # выставляем пределы по оси икс
+
+    # квадратичная функция
+    xi = np.linspace(a, b, freq)
+    y = [k1 * t * t + k2 * t + k3 for t in xi]
+    plt.plot(xi, y)
+
+    plt.grid()
+    plt.show()
+
+
 def solve(fac):
     sl = Sol
+    disc = fac.b * fac.b - 4 * fac.a * fac.c
 
     if fac.max_degree > 2:
         exit_with_error(-6)
@@ -25,7 +50,6 @@ def solve(fac):
         sl.n = 1
         sl.x.append(round(-fac.c / fac.b, 3))
     else:
-        disc = fac.b * fac.b - 4 * fac.a * fac.c
         if disc == 0:
             if fac.a > 0:
                 sl.comment = '\nYour equation graph is a parabola with branches up. ' \
@@ -53,21 +77,22 @@ def solve(fac):
                 sl.comment = '\nYour equation graph is a parabola with branches down. However, ' \
                              'it does not cross the OX axis! Wow! This means you have two complex roots *0* \n'
             sl.n = 2
-            # print('---', str(round(-fac.b / (2 * fac.a), 3)) + ' + ' + str(round(-fac.b / (2 * fac.a), 3)))
             sl.x.append(str(round(-fac.b / (2 * fac.a), 3)) + ' + '
                         + str(round(math.sqrt(-disc) / (2 * fac.a), 3)) + ' * i')
             sl.x.append(str(round(-fac.b / (2 * fac.a), 3)) + ' - '
                         + str(round(math.sqrt(-disc) / (2 * fac.a), 3)) + ' * i')
 
-    print(sl.comment)
+    if sl.n == 0 or fac.if_i == 1:
+        print(sl.comment)
 
-    print('The solution is:\n')
+    if sl.n > 0:
+        print('The solution is:')
 
-    if sl.n == 1:
-        print('X = ', sl.x[0])
-    elif sl.n == 2:
-        print('X1 =', sl.x[0])
-        print('X2 =', sl.x[1], '\n')
+        if sl.n == 1:
+            print('X = ', sl.x[0])
+        elif sl.n == 2:
+            print('X1 =', sl.x[0])
+            print('X2 =', sl.x[1], '\n')
 
-
-    return sl
+    if fac.if_p and sl.n >= 1 and disc >= 0:
+        show_plot(sl.x, fac.a, fac.b, fac.c)

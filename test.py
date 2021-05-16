@@ -1,50 +1,55 @@
-def merge(left_list, right_list):
-    sorted_list = []
-    left_list_index = right_list_index = 0
-
-    left_list_length, right_list_length = len(left_list), len(right_list)
-
-    for _ in range(left_list_length + right_list_length):
-        if left_list_index < left_list_length and right_list_index < right_list_length:
-            # Сравниваем первые элементы в начале каждого списка
-            # Если первый элемент левого подсписка меньше, добавляем его
-            # в отсортированный массив
-            if left_list[left_list_index] <= right_list[right_list_index]:
-                sorted_list.append(left_list[left_list_index])
-                left_list_index += 1
-            # Если первый элемент правого подсписка меньше, добавляем его
-            # в отсортированный массив
-            else:
-                sorted_list.append(right_list[right_list_index])
-                right_list_index += 1
-
-        # Если достигнут конец левого списка, элементы правого списка
-        # добавляем в конец результирующего списка
-        elif left_list_index == left_list_length:
-            sorted_list.append(right_list[right_list_index])
-            right_list_index += 1
-        # Если достигнут конец правого списка, элементы левого списка
-        # добавляем в отсортированный массив
-        elif right_list_index == right_list_length:
-            sorted_list.append(left_list[left_list_index])
-            left_list_index += 1
-
-    return sorted_list
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-def merge_sort(nums):
-    if len(nums) <= 1:
-        return nums
+def roots(a, b, c):
+    D = b ** 2 - 4 * a * c
+    d = D ** 0.5
+    x1 = (-b + d) / (2 * a)
+    x2 = (-b - d) / (2 * a)
+    if D > 0:
+        return x1, x2
+    elif x1 == x2:
+        return x1
+    else:
+        exit('Complex roots')
 
-    mid = len(nums) // 2
 
-    left_list = merge_sort(nums[:mid])
-    right_list = merge_sort(nums[mid:])
+k1, k2, k3 = 4, 15, 3
 
-    return merge(left_list, right_list)
+roots = roots(k1, k2, k3)
+if isinstance(roots, tuple):
+    x1, x2 = roots
+    points = x1, x2
+    print(points)
+    y0 = 0, 0
+    plt.scatter(points, y0, color='red')
+else:
+    x = roots
+    points = x
+    y0 = 0
+    plt.scatter(points, y0, color='red')
 
+freq = 100  # частота дискретизации типо
+a, b = -10, 10  # здесь ручками выставляем пределы по оси икс
 
-random_list_of_nums = [120, 45, 68, 250, 176]
-# random_list_of_nums = [1]
-random_list_of_nums = merge_sort(random_list_of_nums)
-print(random_list_of_nums)
+# квадратичная функция
+xi = np.linspace(a, b, freq)
+y = [k1 * t * t + k2 * t + k3 for t in xi]
+plt.plot(xi, y)
+
+plt.grid()
+plt.show()
+
+# import matplotlib.pyplot as plt
+#
+#
+# x = [i for i in range(10)]
+#
+#
+# def y(x):
+#     return [i * i for i in x]
+#
+#
+# plt.plot(x, y(x))
+# plt.show()

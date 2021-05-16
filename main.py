@@ -1,10 +1,7 @@
-import re
 import sys
 
 from check_and_pars import check, parse_argv, get_number_factors, check_correct_part, get_max_degree
 from create_solution import solve
-# from my_math import ftPow
-from error import exit_with_error, printUsage
 
 
 class MyPolynomialPars:
@@ -14,11 +11,12 @@ class MyPolynomialPars:
     max_degree = 0
     pow_num_dict = {}
     reduced_form = ''
+    if_p = 0
+    if_i = 0
 
 
 def print_reduced_form(fac):
     list_keys = sorted(list(fac.pow_num_dict.keys()), reverse=True)
-    # list_keys.sort()
     z = 0
 
     for i in list_keys:
@@ -36,12 +34,15 @@ def print_reduced_form(fac):
             fac.reduced_form += str(fac.pow_num_dict[i])
             if l == 1:
                 fac.reduced_form += ')'
-            fac.reduced_form += ' * X^' + str(i)
+            if i != 0:
+                fac.reduced_form += ' * X^' + str(i)
 
+    if fac.reduced_form == "":
+        fac.reduced_form = "0"
     fac.reduced_form += ' = 0'
 
-    print('\nReduced form: ', fac.reduced_form)
-    print('Polynomial degree: ', fac.max_degree)
+    print('\nReduced form:', fac.reduced_form)
+    print('Polynomial degree:', fac.max_degree)
 
     return 0
 
@@ -56,33 +57,16 @@ def get_abc(fac):
 
 
 def main(argv):
-    equation, debug_option = parse_argv(argv)
-    # equation = equation.replace(" ", "")
-    check(equation)
     fac = MyPolynomialPars
+    equation, fac.if_i, fac.if_p = parse_argv(argv)
+    check(equation)
     equation = equation.split()
     check_correct_part(equation)
     get_number_factors(equation, fac)
     get_max_degree(fac)
     get_abc(fac)
     print_reduced_form(fac)
-    sol = solve(fac)
-
-    # print(fac.pow_num_dict)
-
-    # print(equation)
-    # print('a = ', fac.a, 'b = ', fac.b, 'c = ', fac.c, 'd = ', fac.pow_num_dict, 'max_degree = ', fac.max_degree)
-    # print('max_degree = ', fac.max_degree)
-    # print('reduced form: ', fac.reduced_form)
-
-    # print('Equation roots: ', sol.x)
-
-    # equation = lexicalCheck(equation)
-    # print(equation)
-    # equation = bringRightToLeft(equation)
-    # print(equation)
-    # equation = reduceEquation(equation, debug_option)
-    # resolveEquation(equation, debug_option)
+    solve(fac)
 
     return 0
 
